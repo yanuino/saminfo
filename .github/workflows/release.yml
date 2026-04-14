@@ -45,7 +45,9 @@ jobs:
           python-version: '3.14'
       - run: pip install uv
       - run: uv sync --dev
-      - run: uv run pyinstaller packaging/pyinstaller/linux.spec
+      - run: test -f "$GITHUB_WORKSPACE/packaging/pyinstaller/linux.spec"
+      - run: uv run pyinstaller "$GITHUB_WORKSPACE/packaging/pyinstaller/linux.spec"
+        working-directory: ${{ github.workspace }}
       - run: tar -C dist -czf ${PYINSTALLER_NAME}-linux-x64.tar.gz .
       - uses: actions/upload-artifact@v6
         with:
@@ -68,7 +70,9 @@ jobs:
           python-version: '3.14'
       - run: pip install uv
       - run: uv sync --dev
-      - run: uv run pyinstaller packaging/pyinstaller/win32.spec
+      - run: if (!(Test-Path "$env:GITHUB_WORKSPACE/packaging/pyinstaller/win32.spec")) { throw "spec file not found" }
+      - run: uv run pyinstaller "$env:GITHUB_WORKSPACE/packaging/pyinstaller/win32.spec"
+        working-directory: ${{ github.workspace }}
       - run: Compress-Archive -Path dist\* -DestinationPath "$env:PYINSTALLER_NAME-windows-x64.zip"
       - uses: actions/upload-artifact@v6
         with:
