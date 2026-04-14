@@ -1,57 +1,33 @@
-# Project Documentation
+# SAMINFO
 
-Welcome to the project documentation.
+SAMINFO is a small desktop tool that reads Samsung device information over serial AT commands.
 
-This documentation is built using **MkDocs** and is intended to provide:
+## What it does
 
-- an overview of the project
-- usage and configuration guidance
-- API reference documentation (when applicable)
+- detects connected Samsung USB modem ports
+- sends AT+DEVCONINFO
+- shows parsed data in a simple GUI
 
----
+## Requirements
 
-## Getting started
+- Python 3.14+
+- Samsung USB drivers installed on the host machine
+- a connected Samsung device exposing a serial modem interface
 
-This project uses an opinionated Python setup with:
+## Run locally
 
-- `uv` for dependency management
-- `Ruff` for linting and formatting
-- `pytest` for testing
+```bash
+uv sync --dev
+uv run python -m saminfo
+```
 
-Refer to the repository **README** for development setup instructions.
+## Main modules
 
----
+- saminfo.app: GUI entry point and periodic polling
+- saminfo.device.detector: serial device detection
+- saminfo.device.at_client: AT command transport and response parsing
+- saminfo.device.device_command: higher-level download/Odin helpers
 
-## Documentation structure
+## API docs
 
-Documentation sources are located in the `docs/` directory.
-
-Typical sections include:
-
-- project overview
-- user guides
-- API reference
-- development notes
-
-Additional pages can be added by creating Markdown files under `docs/` and
-registering them in `mkdocs.yml`.
-
----
-
-## API reference
-
-If enabled, API documentation is generated automatically from source code
-docstrings using **mkdocstrings**.
-
----
-
-## Versioning and releases
-
-Documentation is built in **strict mode**, meaning warnings are treated as errors.
-
-During releases:
-
-- documentation is always built
-- publication is optional and handled via CI
-
-Refer to the release documentation for details.
+The public device API is documented in the API section.

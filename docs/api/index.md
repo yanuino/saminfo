@@ -1,31 +1,12 @@
 # API Reference
 
-This section contains the API reference documentation.
+This section documents the public Python API used by the GUI and automation helpers.
 
-API documentation is generated automatically from the project’s source code
-using **mkdocstrings**.
+## Available modules
 
----
+- Device API: detection, AT calls, and Odin helpers
 
-## Purpose
+## Notes
 
-The goal of this section is to:
-
-- document public classes, functions, and modules
-- expose stable APIs intended for users
-- keep implementation details out of the documentation
-
----
-
-## Structure
-
-API documentation files are typically organized by module or feature.
-
-Example structure:
-
-```text
-docs/api/
-├── index.md
-├── module_a.md
-├── module_b.md
-└── ...
+- API pages are generated from docstrings with mkdocstrings.
+- Private/internal members are filtered from output.
