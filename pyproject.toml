@@ -1,0 +1,64 @@
+[project]
+name = "saminfo"
+version = "0.1.0"
+description = "Read info from Samsung mobile"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "customtkinter>=5.2.2",
+    "pyserial>=3.5",
+]
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/saminfo"]
+
+[dependency-groups]
+dev = [
+    "mkdocs>=1.6.1",
+    "mkdocs-git-revision-date-localized-plugin>=1.5.1",
+    "mkdocs-macros-plugin>=1.5.0",
+    "mkdocs-material>=9.7.6",
+    "mkdocstrings[python]>=1.0.3",
+    "pre-commit>=4.5.1",
+    "pyinstaller>=6.19.0",
+    "pytest>=9.0.3",
+    "ruff>=0.15.9",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py314"
+exclude = [
+  ".venv",
+  "venv",
+  "__pycache__",
+  "build",
+  "dist",
+  "AppIcons",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "D"]
+ignore = [
+    "D100",
+    "D104",
+    "D203",
+    "D213",
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+preview = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

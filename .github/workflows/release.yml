@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  docs:
+    name: Build documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - run: pip install uv
+      - run: uv sync --dev
+      - run: uv run mkdocs build --strict
+
+  publish-docs:
+    name: Publish documentation
+    needs: docs
+    runs-on: ubuntu-latest
+    environment: docs
+
+    steps:
+      - run: echo 'Publish docs (GitHub Pages, S3, etc.)'
+
+  build-linux:
+    name: Build Linux binary
+    runs-on: ubuntu-latest
+    environment: release-linux
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - run: pip install uv
+      - run: uv sync --dev
+      - run: |
+          PYINSTALLER_MODULE=saminfo \
+          PYINSTALLER_NAME=saminfo \
+          uv run pyinstaller packaging/pyinstaller/linux.spec
+
+
+  build-windows:
+    name: Build Windows binary
+    runs-on: windows-latest
+    environment: release-windows
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - run: pip install uv
+      - run: uv sync --dev
+      - run: |
+          $env:PYINSTALLER_MODULE="saminfo"; $env:PYINSTALLER_NAME="saminfo"
+          uv run pyinstaller packaging/pyinstaller/win32.spec
+
+
