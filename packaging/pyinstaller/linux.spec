@@ -6,9 +6,15 @@ import os
 
 module_name = os.environ.get("PYINSTALLER_MODULE", "project")
 binary_name = os.environ.get("PYINSTALLER_NAME", module_name)
+project_root = os.path.abspath(os.environ.get("PYINSTALLER_PROJECT_ROOT", os.getcwd()))
+module_entrypoint = os.path.join(project_root, "src", *module_name.split("."), "__main__.py")
+
+if not os.path.exists(module_entrypoint):
+    raise SystemExit(f"Module entrypoint not found: {module_entrypoint}")
 
 a = Analysis(
-    [],
+    [module_entrypoint],
+    pathex=[project_root, os.path.join(project_root, "src")],
     hiddenimports=[module_name],
     binaries=[],
     datas=[],
